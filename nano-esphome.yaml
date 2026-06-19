@@ -1,0 +1,12 @@
+packages:
+  core: !include .common-core.yaml
+
+esphome:
+  name: rtos-nano
+
+dashboard_import:
+  package_import_url: github://smlight-smhub/rtos-config//nano-esphome.yaml@main
+
+sg2000:
+  board: NANO
+  version: "2026.5.3"

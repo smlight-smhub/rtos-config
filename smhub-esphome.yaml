@@ -1,0 +1,70 @@
+packages:
+  core: !include .common-core.yaml
+
+esphome:
+  name: rtos-smhub
+
+dashboard_import:
+  package_import_url: github://smlight-smhub/rtos-config/smhub-esphome.yaml@main
+
+sg2000:
+  board: SMHUB
+  version: "2026.5.3"
+
+api:
+  services:
+    - service: play_rtttl
+      variables:
+        song_str: string
+      then:
+        - rtttl.play:
+            id: smhub_buzzer
+            rtttl: !lambda 'return song_str;'
+
+binary_sensor:
+  - platform: gpio
+    name: "User Button"
+    pin: 
+      number: "btn_2"
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    filters:
+      - delayed_on: 10ms
+
+light:
+  - platform: sg2000_ws2812
+    id: status_led
+    name: "AmbiLight"
+    spi_base: 0x04180000
+    num_leds: 12
+    effects:
+      - pulse:
+      - strobe:
+      - random:
+      - addressable_rainbow:
+          name: "Rainbow Effect"
+          speed: 10
+      - addressable_color_wipe:
+          name: "Color Wipe Effect"
+      - addressable_scan:
+          name: "Scan Effect"
+          move_interval: 100ms
+          scan_width: 1
+      - addressable_fireworks:
+          name: "Fireworks Effect"
+
+rtttl:
+  output: smhub_pwm
+  id: smhub_buzzer
+
+output:
+ - platform: sg2000_pwm
+   id: smhub_pwm
+   pwm_id: 3
+   channel: 2
+
+i2c:
+  i2c_id: 4
+  frequency: 100kHz

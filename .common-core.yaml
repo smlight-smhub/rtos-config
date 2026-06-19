@@ -1,0 +1,45 @@
+esphome:
+  min_version: 2026.5.3
+  project:
+    name: "smlight.smhub"
+    version: "1.0.0"
+
+logger:
+  level: DEBUG
+  baud_rate: 115200
+
+api:
+  reboot_timeout: 0s
+  encryption:
+    key: "VGVzdGluZ1RSTkdFbmNyeXB0aW9uS2V5MTIzNDU2Nzg="
+
+time:
+  - platform: smhub_time
+    id: smlight_time
+
+ota:
+  - platform: esphome
+    port: 3232
+
+bluetooth_proxy:
+  active: true
+
+binary_sensor:
+  - platform: gpio
+    name: "Factory Reset Button"
+    pin:
+      number: "btn_1"
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+
+switch:
+  - platform: gpio
+    name: "Blue LED"
+    pin: "led_cus"
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: gpio
+    name: "Power LED"
+    pin: "led_pwr"
+    restore_mode: RESTORE_DEFAULT_ON
