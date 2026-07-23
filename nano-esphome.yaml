@@ -9,4 +9,3 @@ dashboard_import:
 
 sg2000:
   board: NANO
-  version: "2026.5.3"

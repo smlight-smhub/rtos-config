@@ -9,7 +9,6 @@ dashboard_import:
 
 sg2000:
   board: SMHUB
-  version: "2026.5.3"
 
 api:
   services:
